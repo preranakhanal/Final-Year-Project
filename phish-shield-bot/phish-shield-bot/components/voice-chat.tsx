@@ -282,9 +282,8 @@ export function VoiceChat({ messages, onSendMessage, isListening, setIsListening
             <Image
               src="/phish-shield-logo.png"
               alt="Phish Shield Bot"
-              width={128}
-              height={128}
-              className="rounded-full"
+              width={80}
+              height={80}
             />
           </div>
 

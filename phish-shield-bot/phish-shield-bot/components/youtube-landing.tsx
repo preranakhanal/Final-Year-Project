@@ -13,35 +13,40 @@ export default function YouTubeLanding({ onStartQuiz }: YouTubeLandingProps) {
     {
       id: 1,
       title: "What is Phishing & How To Be Safe From it in Nepali | Phishing Attack| Facebook Phishing",
-      thumbnail: "/placeholder.svg?height=180&width=320&text=What+is+Phishing",
+      url: "https://youtu.be/zLPNVxLS0fw?si=tRuzOhSRbU0NoXNGIn",
+      embedId: "zLPNVxLS0fw",
       description:
         "Learn about phishing attacks and how to protect yourself from cybercriminals trying to steal your personal information.",
     },
     {
       id: 2,
       title: "Phishing Email 📧 and Types of Phishing Emails #cybersecurity #trending #viralvideo",
-      thumbnail: "/placeholder.svg?height=180&width=320&text=Types+of+Phishing+Email",
+      url: "https://youtu.be/PAw5zJMCkP0?si=5e8Czloo7f_5-1i_",
+      embedId: "PAw5zJMCkP0",
       description:
         "Discover different types of phishing emails and learn to identify suspicious messages in your inbox.",
     },
     {
       id: 3,
       title: "How to Spot Phishing Emails - Cybersecurity Awareness Training",
-      thumbnail: "/placeholder.svg?height=180&width=320&text=Spot+Phishing+Emails",
+      url: "https://youtu.be/WNVTGTrWcvw?si=7lVF8zT4Ga2fj2hk",
+      embedId: "WNVTGTrWcvw",
       description:
         "Essential tips and techniques to identify and avoid phishing emails before they compromise your security.",
     },
     {
       id: 4,
       title: "Types of Phishing Attacks Explained - Spear Phishing, Whaling & More",
-      thumbnail: "/placeholder.svg?height=180&width=320&text=Types+of+Phishing+Attacks",
+      url: "https://youtu.be/FBGnODfUecY?si=hYTWfFqr1ekT_kI0",
+      embedId: "FBGnODfUecY",
       description:
         "Comprehensive guide to different phishing attack methods including spear phishing, whaling, and vishing.",
     },
     {
       id: 5,
       title: "How to Avoid Phishing Scams - Complete Protection Guide 2024",
-      thumbnail: "/placeholder.svg?height=180&width=320&text=Avoid+Phishing+Scams",
+      url: "https://youtu.be/C6z-HadM258?si=Qyo9v2_H9B55ovV7",
+      embedId: "C6z-HadM258",
       description: "Ultimate guide to protecting yourself from phishing scams with practical tips and best practices.",
     },
   ]
@@ -115,30 +120,29 @@ export default function YouTubeLanding({ onStartQuiz }: YouTubeLandingProps) {
 
         {/* Video Grid - 3 columns on large screens, 2 on medium, 1 on small */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-          {videos.map((video, index) => (
+          {videos.map((video) => (
             <Card
               key={video.id}
               className="bg-white shadow-md hover:shadow-xl transition-all duration-300 border-0 hover:scale-105"
             >
               <CardContent className="p-0">
                 <div className="relative group">
-                  <img
-                    src={video.thumbnail || "/placeholder.svg"}
-                    alt={video.title}
-                    className="w-full h-48 object-cover rounded-t-lg"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-purple-900/50 to-transparent group-hover:from-purple-900/70 transition-all rounded-t-lg flex items-center justify-center">
-                    <Play className="h-16 w-16 text-white opacity-70 group-hover:opacity-100 transition-opacity fill-white" />
-                  </div>
+                  <iframe
+                    width="100%"
+                    height="220"
+                    src={`https://www.youtube.com/embed/${video.embedId}`}
+                    title={video.title}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="w-full h-full object-cover rounded-t-lg"
+                  ></iframe>
                 </div>
-
                 <div className="p-4">
-                  <h3 className="font-semibold text-gray-900 text-base mb-3 line-clamp-2 leading-tight">
+                  <h3 className="font-semibold text-gray-900 text-base mb-1 line-clamp-2 leading-tight">
                     {video.title}
                   </h3>
-
-                  <p className="text-sm text-gray-600 mb-4 line-clamp-2">{video.description}</p>
-
+                  <p className="text-sm text-gray-600 mb-3 line-clamp-2">{video.description}</p>
                   <Button
                     onClick={onStartQuiz}
                     className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-medium py-2 border-0"
