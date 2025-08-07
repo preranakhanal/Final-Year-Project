@@ -1,4 +1,6 @@
+
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   entry: {
@@ -30,4 +32,10 @@ module.exports = {
   devtool: 'source-map',
   mode: 'production',
   // No externals for React or ReactDOM; ensure everything is bundled
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': JSON.stringify({}),
+      'process.env.__NEXT_IMAGE_OPTS': JSON.stringify({})
+    })
+  ]
 };

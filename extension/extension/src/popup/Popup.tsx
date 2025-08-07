@@ -1,8 +1,8 @@
 import React from 'react';
-import { PhishingWarningPopup } from "../components/PhishingWarningPopup";
-import { SafeEmailPopup } from "../components/SafeEmailPopup";
-import { LoadingAnalysisPopup } from "../components/LoadingAnalysisPopup";
-import { ErrorAnalysisPopup } from "../components/ErrorAnalysisPopup";
+import PhishingWarningPopup from "../components/PhishingWarningPopup";
+import SafeEmailPopup from "../components/SafeEmailPopup";
+import LoadingAnalysisPopup from "../components/LoadingAnalysisPopup";
+import ErrorAnalysisPopup from "../components/ErrorAnalysisPopup";
 import { fetchRecentEmails, getGmailAuthToken } from '../gmail/gmailApi';
 import { analyzeEmail, EmailContent } from '../ml/phishingDetector';
 import ExtensionHomepage from "../components/ExtensionHomepage";

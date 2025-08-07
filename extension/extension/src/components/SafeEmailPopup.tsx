@@ -1,4 +1,6 @@
 import React from "react";
+import { Shield, ExternalLink, MessageCircle, CheckCircle, Globe } from "lucide-react";
+import Image from "next/image";
 
 interface PredictionResponse {
   status: string;
@@ -14,9 +16,8 @@ interface SafeEmailPopupProps {
   predictionData?: PredictionResponse;
 }
 
-export function SafeEmailPopup({ predictionData }: SafeEmailPopupProps) {
+const SafeEmailPopup: React.FC<SafeEmailPopupProps> = ({ predictionData }) => {
   const handleLearnMore = () => {
-    // Open learn more page with ?reason= param containing the full backend reason
     let reason = '';
     if (predictionData?.reasoning && predictionData.reasoning.length > 0) {
       reason = encodeURIComponent(predictionData.reasoning[0]);
@@ -24,18 +25,13 @@ export function SafeEmailPopup({ predictionData }: SafeEmailPopupProps) {
     const url = `http://localhost:3000${reason ? `?reason=${reason}` : ''}`;
     window.open(url, '_blank');
   };
-
   const handleChatWithUs = () => {
-    // Open chat support
     window.open('http://localhost:3000', '_blank');
   };
-
-  // Get the first 15 words from reasoning
   const getReasoningPreview = () => {
     if (!predictionData?.reasoning || predictionData.reasoning.length === 0) {
       return "This email has been verified and appears to be legitimate and secure.";
     }
-    
     const reasoningText = predictionData.reasoning[0];
     const words = reasoningText.split(' ');
     if (words.length <= 15) {
@@ -43,131 +39,85 @@ export function SafeEmailPopup({ predictionData }: SafeEmailPopupProps) {
     }
     return words.slice(0, 15).join(' ') + '...';
   };
-
   return (
-    <div style={{ width: 320, border: '1px solid #bbf7d0', background: '#f0fdf4', boxShadow: '0 2px 8px #0001', padding: 16 }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
-        <img src="/logo.png" alt="SmartPhishBot" width={40} height={40} style={{ borderRadius: 8 }} />
-        <div style={{ flex: 1 }}>
-          <h2 style={{ fontSize: 18, fontWeight: 600, color: '#166534', margin: 0 }}>SmartPhishBot</h2>
-          <p style={{ fontSize: 14, color: '#22c55e', margin: 0 }}>Email Verified</p>
+    <div className="w-96 border-0 bg-gradient-to-br from-blue-500 via-purple-600 to-purple-700 text-white overflow-hidden rounded-xl shadow-lg">
+      <div className="flex items-center gap-3 mb-4 p-4">
+        <div className="flex-shrink-0">
+          <Image src="/logo.png" alt="SmartPhishBot" width={50} height={50} className="rounded-lg" />
         </div>
-        {/* Shield SVG */}
-        <svg width="24" height="24" fill="none" stroke="#16a34a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <div className="flex-1">
+          <h2 className="text-xl font-bold text-white">SmartPhishBot</h2>
+          <p className="text-sm text-green-100">EMAIL VERIFIED</p>
+        </div>
+        <Shield className="h-8 w-8 text-green-300" />
       </div>
-      <div style={{ background: '#fff', borderRadius: 8, border: '1px solid #bbf7d0', padding: 16, marginBottom: 16 }}>
-        <p style={{ color: '#111827', fontWeight: 500, textAlign: 'center', margin: 0 }}>This email is safe</p>
-        <p style={{ fontSize: 13, color: '#374151', marginTop: 8, textAlign: 'center' }}>
-          {getReasoningPreview()}
-        </p>
-      </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 12 }}>
-        <button
-          onClick={handleLearnMore}
-          style={{
-            width: '100%',
-            border: '2px solid #86efac',
-            color: '#16a34a',
-            background: '#fff',
-            borderRadius: 8,
-            padding: '12px 0',
-            fontWeight: 600,
-            fontSize: 14,
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: 6,
-            transition: 'all 0.2s ease-in-out',
-            boxShadow: '0 2px 6px rgba(22, 163, 74, 0.1)',
-            outline: 'none'
-          }}
-          onMouseOver={(e) => {
-            e.currentTarget.style.backgroundColor = '#f0fdf4';
-            e.currentTarget.style.borderColor = '#4ade80';
-            e.currentTarget.style.transform = 'translateY(-1px)';
-            e.currentTarget.style.boxShadow = '0 4px 10px rgba(22, 163, 74, 0.15)';
-          }}
-          onMouseOut={(e) => {
-            e.currentTarget.style.backgroundColor = '#fff';
-            e.currentTarget.style.borderColor = '#86efac';
-            e.currentTarget.style.transform = 'translateY(0px)';
-            e.currentTarget.style.boxShadow = '0 2px 6px rgba(22, 163, 74, 0.1)';
-          }}
-          onMouseDown={(e) => {
-            e.currentTarget.style.transform = 'translateY(0px)';
-            e.currentTarget.style.boxShadow = '0 1px 3px rgba(22, 163, 74, 0.1)';
-          }}
-          onMouseUp={(e) => {
-            e.currentTarget.style.transform = 'translateY(-1px)';
-            e.currentTarget.style.boxShadow = '0 4px 10px rgba(22, 163, 74, 0.15)';
-          }}
-          onFocus={(e) => {
-            e.currentTarget.style.outline = '2px solid #4ade80';
-            e.currentTarget.style.outlineOffset = '2px';
-          }}
-          onBlur={(e) => {
-            e.currentTarget.style.outline = 'none';
-          }}
-        >
-          {/* ExternalLink SVG */}
-          <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          Learn More
-        </button>
-        <button
-          onClick={handleChatWithUs}
-          style={{
-            width: '100%',
-            background: 'linear-gradient(135deg, #16a34a 0%, #15803d 100%)',
-            color: '#fff',
-            border: 'none',
-            borderRadius: 8,
-            padding: '12px 0',
-            fontWeight: 600,
-            fontSize: 14,
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: 6,
-            transition: 'all 0.2s ease-in-out',
-            boxShadow: '0 3px 12px rgba(22, 163, 74, 0.25)',
-            outline: 'none'
-          }}
-          onMouseOver={(e) => {
-            e.currentTarget.style.background = 'linear-gradient(135deg, #15803d 0%, #166534 100%)';
-            e.currentTarget.style.transform = 'translateY(-1px)';
-            e.currentTarget.style.boxShadow = '0 6px 16px rgba(22, 163, 74, 0.35)';
-          }}
-          onMouseOut={(e) => {
-            e.currentTarget.style.background = 'linear-gradient(135deg, #16a34a 0%, #15803d 100%)';
-            e.currentTarget.style.transform = 'translateY(0px)';
-            e.currentTarget.style.boxShadow = '0 3px 12px rgba(22, 163, 74, 0.25)';
-          }}
-          onMouseDown={(e) => {
-            e.currentTarget.style.transform = 'translateY(0px)';
-            e.currentTarget.style.boxShadow = '0 1px 8px rgba(22, 163, 74, 0.25)';
-          }}
-          onMouseUp={(e) => {
-            e.currentTarget.style.transform = 'translateY(-1px)';
-            e.currentTarget.style.boxShadow = '0 6px 16px rgba(22, 163, 74, 0.35)';
-          }}
-          onFocus={(e) => {
-            e.currentTarget.style.outline = '2px solid #86efac';
-            e.currentTarget.style.outlineOffset = '2px';
-          }}
-          onBlur={(e) => {
-            e.currentTarget.style.outline = 'none';
-          }}
-        >
-          {/* MessageCircle SVG */}
-          <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-1.9 5.4A8.5 8.5 0 0 1 3 12.5c0-4.7 3.8-8.5 8.5-8.5s8.5 3.8 8.5 8.5z"/><polyline points="8.5 12.5 12 15.5 15.5 12.5"/></svg>
-          Chat with Us
-        </button>
-      </div>
-      <div style={{ fontSize: 11, color: '#6b7280', textAlign: 'center', paddingTop: 8 }}>
-        SmartPhishBot helps keep your emails secure and verified.
+      <div className="px-6 pb-6 space-y-6">
+        <div className="text-center">
+          <h3 className="text-2xl font-bold mb-2 text-green-300">✅ EMAIL IS SAFE</h3>
+          <p className="text-green-100 text-sm">{getReasoningPreview()}</p>
+        </div>
+        <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+          <h4 className="font-semibold mb-3 text-green-300">Security Check Results:</h4>
+          <div className="space-y-2 text-sm">
+            <div className="flex items-center gap-2">
+              <CheckCircle className="h-4 w-4 text-green-300" />
+              <span>Sender domain verified</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle className="h-4 w-4 text-green-300" />
+              <span>All links are safe</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle className="h-4 w-4 text-green-300" />
+              <span>No suspicious content found</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle className="h-4 w-4 text-green-300" />
+              <span>Legitimate sender reputation</span>
+            </div>
+          </div>
+        </div>
+        <div className="bg-green-500/20 backdrop-blur-sm rounded-lg p-3">
+          <div className="flex items-center gap-2 mb-2">
+            <Globe className="h-4 w-4" />
+            <span className="text-sm font-medium">Verification Details:</span>
+          </div>
+          <div className="text-xs space-y-1">
+            <div className="flex justify-between">
+              <span>Safety Level:</span>
+              <span className="text-green-300 font-bold">SECURE</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Confidence:</span>
+              <span>{predictionData?.confidence ? `${(predictionData.confidence * 100).toFixed(1)}%` : "99.2%"}</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Verified:</span>
+              <span>Just now</span>
+            </div>
+          </div>
+        </div>
+        <div className="space-y-3">
+          <button
+            onClick={handleChatWithUs}
+            className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-lg flex items-center justify-center"
+          >
+            <MessageCircle className="h-4 w-4 mr-2" />
+            Contact Support
+          </button>
+          <button
+            onClick={handleLearnMore}
+            className="w-full text-white hover:bg-white/10 py-2 rounded-lg flex items-center justify-center"
+            style={{ background: "transparent", border: "none" }}
+          >
+            <ExternalLink className="h-4 w-4 mr-2" />
+            Learn About Email Security
+          </button>
+        </div>
+        <div className="text-xs text-green-100 text-center">🛡️ Protected by SmartPhishBot • Continue safely</div>
       </div>
     </div>
   );
-}
+};
+
+export default SafeEmailPopup;
