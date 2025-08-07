@@ -7,7 +7,7 @@ SECRET_KEY = 'django-insecure-random-key-here'
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'https://54b7567a62e3.ngrok-free.app/']
 
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:3000',

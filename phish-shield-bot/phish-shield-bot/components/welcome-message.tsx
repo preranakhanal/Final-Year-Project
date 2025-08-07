@@ -20,8 +20,8 @@ export function WelcomeMessage({ currentMode, reasonMode }: WelcomeMessageProps)
             <Image
               src="/phish-shield-logo.png"
               alt="Phish Shield Bot"
-              width={48}
-              height={48}
+              width={70}
+              height={70}
               className="rounded-2xl"
             />
           </div>

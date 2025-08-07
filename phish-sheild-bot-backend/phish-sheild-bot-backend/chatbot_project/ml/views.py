@@ -11,8 +11,8 @@ import openai
 from django.conf import settings
 
 # Load the model and vectorizer once at startup
-MODEL_PATH = r'E:/Final FYP Project/ml_training/ml_training/phishing_email_model.joblib'
-VECTORIZER_PATH = r'E:/Final FYP Project/ml_training/ml_training/phishing_email_vectorizer.joblib'
+MODEL_PATH = os.path.join(os.path.dirname(__file__), 'phishing_email_model.joblib')
+VECTORIZER_PATH = os.path.join(os.path.dirname(__file__), 'phishing_email_vectorizer.joblib')
 model = joblib.load(MODEL_PATH)
 vectorizer = joblib.load(VECTORIZER_PATH)
 

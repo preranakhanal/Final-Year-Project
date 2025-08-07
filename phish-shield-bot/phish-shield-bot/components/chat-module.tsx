@@ -226,7 +226,21 @@ export function ChatModule() {
                 {currentMode === 'chat' ? '🧠 Quiz Mode' : '💬 Chat Mode'}
               </span>
             </Button>
-            
+
+            {/* Video Mode */}
+            <Button
+              onClick={() => {
+                window.location.href = "/video-learning";
+              }}
+              className="
+                bg-purple-500/20 text-white border-purple-300/30 hover:bg-purple-500/30
+                backdrop-blur-sm border rounded-xl px-4 py-2 text-sm font-semibold
+                hover:scale-105 hover:shadow-lg shadow-md transition-all duration-300
+              "
+            >
+              🎥 Video Mode
+            </Button>
+ 
             {/* Clear Chat Button */}
             <Button
               onClick={handleClearChat}

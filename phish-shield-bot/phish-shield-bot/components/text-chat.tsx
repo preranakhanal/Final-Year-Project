@@ -90,8 +90,51 @@ export function TextChat({ messages, onSendMessage, onSwitchToVoice, isTyping, r
             <WelcomeMessage currentMode={currentMode} reasonMode={reasonMode} />
           ) : (
             <>
-              {messages.map((message) => (
-                <div key={message.id} className={`group mb-6 flex ${message.sender === "user" ? "justify-end" : "justify-start"} animate-slide-in`}>
+            {messages.map((message, idx) => {
+              // Always generate a unique key using id, timestamp, and index
+              const key = `${message.id}-${typeof message.timestamp === 'string' ? message.timestamp : (message.timestamp?.getTime?.() ?? idx)}-${idx}`;
+              
+              // Format timestamp properly with error handling
+              const formatTimestamp = (timestamp: string | Date) => {
+                try {
+                  let dateObj;
+                  
+                  if (typeof timestamp === 'string') {
+                    // Clean up malformed timestamp (remove Z if +00:00 is present)
+                    let cleanTimestamp = timestamp;
+                    if (timestamp.includes('+00:00Z')) {
+                      cleanTimestamp = timestamp.replace('+00:00Z', 'Z');
+                    }
+                    dateObj = new Date(cleanTimestamp);
+                  } else if (timestamp instanceof Date) {
+                    // Check if the Date object is valid first
+                    if (isNaN(timestamp.getTime())) {
+                      console.warn('Invalid Date object received:', timestamp);
+                      return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Use current time as fallback
+                    }
+                    dateObj = timestamp;
+                  } else {
+                    console.warn('Unknown timestamp type:', typeof timestamp, timestamp);
+                    return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Use current time as fallback
+                  }
+                  
+                  // Final check if date is valid
+                  if (isNaN(dateObj.getTime())) {
+                    console.warn('Invalid timestamp after processing:', timestamp);
+                    return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Use current time as fallback
+                  }
+                  
+                  return dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                } catch (error) {
+                  console.warn('Error formatting timestamp:', timestamp, error);
+                  return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Use current time as fallback
+                }
+              };
+              
+              const timeString = formatTimestamp(message.timestamp);
+              
+              return (
+                <div key={key} className={`group mb-6 flex ${message.sender === "user" ? "justify-end" : "justify-start"} animate-slide-in`}>
                   <div className="flex gap-3 max-w-[80%]" style={{ flexDirection: message.sender === "user" ? 'row-reverse' : 'row' }}>
                     {/* Enhanced Avatar */}
                     <div className="flex-shrink-0 relative">
@@ -150,13 +193,14 @@ export function TextChat({ messages, onSendMessage, onSwitchToVoice, isTyping, r
                       
                       {/* Timestamp */}
                       <div className={`text-xs text-gray-400 mt-1 opacity-0 group-hover:opacity-100 transition-opacity ${message.sender === "user" ? "text-right" : "text-left"}`}>
-                        {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        {timeString}
                       </div>
                     </div>
                   </div>
                 </div>
-              ))}
-              {isTyping && (
+              );
+            })}
+                          {isTyping && (
                 <div className="group mb-6 flex justify-start animate-slide-in">
                   <div className="flex gap-3 max-w-[80%]">
                     <div className="flex-shrink-0 relative">
